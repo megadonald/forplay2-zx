@@ -1,327 +1,355 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>megadon</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-<title>Aunt can't go Everywhere Now😭😱😈</title>
+    .live-container {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
 
-<meta name="description" content="Watch the trending viral video everyone is talking about. Wait until the end to see what happens.">
-<meta name="robots" content="index, follow">
-<meta name="author" content="MegaDonald">
+    .live-video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
 
-<link rel="canonical" href="https://megadonald.github.io/forplay2-zx/">
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-<meta name="theme-color" content="#000000">
+    .play-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
 
-<!-- Facebook Open Graph -->
-<meta property="og:title" content="The Video Everyone Is Talking About">
-<meta property="og:description" content="Watch this trending viral video everyone is talking about. Wait until the end.">
-<meta property="og:image" content="https://megadonald.github.io/forplay2-zx/barkez6.jpg">
-<meta property="og:image:alt" content="Trending viral video">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:url" content="https://megadonald.github.io/forplay2-zx/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="MegaDonald">
-<meta property="og:locale" content="en_US">
+    .play-button svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Video Everyone Is Talking About">
-<meta name="twitter:description" content="Watch this trending viral video everyone is talking about.">
-<meta name="twitter:image" content="https://megadonald.github.io/forplay2-zx/barkez6.jpg">
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      z-index: 4;
+      display: none;
+    }
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="https://megadonald.github.io/forplay2-zx/barkez6.jpg">
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
 
-<!-- Preload Image -->
-<link rel="preload" as="image" href="https://megadonald.github.io/forplay2-zx/barkez6.jpg">
+    .header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      z-index: 2;
+    }
 
-<style>
+    .header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      margin-right: 10px;
+    }
 
-body{
-font-family:Arial, Helvetica, sans-serif;
-background:#f0f2f5;
-margin:0;
-padding:30px;
-}
+    .header-info {
+      color: #fff;
+    }
 
-#comments{
-max-width:750px;
-margin:auto;
-background:#fff;
-border:1px solid #ddd;
-padding:20px;
-border-radius:6px;
-}
+    .header-info .name {
+      font-weight: bold;
+      font-size: 14px;
+    }
 
-.comment-title{
-font-weight:bold;
-font-size:18px;
-margin-bottom:20px;
-}
+    .header-info .id {
+      font-size: 12px;
+      opacity: 0.8;
+    }
 
-.comment-box{
-display:flex;
-margin-bottom:18px;
-}
+    .gift-banner {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background: linear-gradient(to right, #ff3c5f, #ff7b8a);
+      padding: 5px 15px;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 12px;
+      z-index: 2;
+      box-shadow: 0 0 10px #ff3c5f;
+    }
 
-.comment-avatar img{
-width:42px;
-height:42px;
-border-radius:50%;
-margin-right:10px;
-}
+    .chat-box {
+      position: absolute;
+      bottom: 120px;
+      left: 10px;
+      width: calc(100% - 20px);
+      max-height: 180px;
+      overflow-y: auto;
+      font-size: 13px;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px;
+      border-radius: 12px;
+      scrollbar-width: none;
+    }
 
-.comment-content{
-background:#f0f2f5;
-padding:10px 12px;
-border-radius:12px;
-max-width:600px;
-}
+    .chat-box::-webkit-scrollbar {
+      display: none;
+    }
 
-.comment-name{
-font-weight:bold;
-color:#385898;
-font-size:14px;
-}
+    .chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
 
-.comment-text{
-font-size:14px;
-margin-top:3px;
-}
+    .chat-message {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: #fff;
+      width: fit-content;
+      max-width: 80%;
+      word-break: break-word;
+      backdrop-filter: blur(6px);
+      animation: chatFadeIn 0.3s ease forwards;
+      transform: translateX(-10px);
+      opacity: 0;
+    }
 
-.comment-meta{
-font-size:12px;
-color:#65676b;
-margin-top:4px;
-}
+    @keyframes chatFadeIn {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
 
-.comment-meta a{
-color:#65676b;
-text-decoration:none;
-margin-right:10px;
-}
+    .chat-input-container {
+      position: absolute;
+      bottom: 60px;
+      left: 10px;
+      width: calc(100% - 20px);
+      display: none; /* Awalnya disembunyikan */
+      flex;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 25px;
+      padding: 8px;
+    }
 
-.comment-meta a:hover{
-text-decoration:underline;
-}
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#000;
-color:#fff;
-text-align:center;
-}
+    .chat-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      outline: none;
+      font-size: 14px;
+    }
 
-.container{
-max-width:700px;
-margin:auto;
-padding:20px;
-}
+    .send-button {
+      background: linear-gradient(to right, #ff3c5f, #ff7b8a);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
 
-.live-box{
-position:relative;
-margin-top:20px;
-}
+    .send-button:hover {
+      transform: scale(1.1);
+    }
 
-.thumb{
-width:100%;
-border-radius:8px;
-}
+    .bottom-bar {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.6);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
 
-.live-badge{
-position:absolute;
-top:10px;
-left:10px;
-background:red;
-padding:6px 10px;
-font-size:14px;
-font-weight:bold;
-border-radius:4px;
-}
+    .bottom-bar img {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(to bottom, #ff3c5f, #ff7b8a);
+      padding: 8px;
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.3s;
+      filter: drop-shadow(0 0 4px #000);
+      cursor: pointer;
+    }
 
-.viewer{
-margin-top:10px;
-font-size:16px;
-color:#00ffae;
-}
-
-.cta{
-margin-top:20px;
-background:#ff0000;
-padding:15px;
-border-radius:8px;
-font-size:20px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.comments{
-margin-top:30px;
-background:#111;
-padding:15px;
-border-radius:6px;
-text-align:left;
-}
-
-.comment{
-border-bottom:1px solid #333;
-padding:10px 0;
-font-size:14px;
-}
-
-.comment strong{
-color:#3b82f6;
-}
-
-.count{
-font-weight:bold;
-margin-bottom:10px;
-}
-</style>
+    .bottom-bar img:hover {
+      transform: scale(1.2);
+      background: linear-gradient(to bottom, #ff7b8a, #ff3c5f);
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
 
-<h1>🔴 Live Stream</h1>
+  <div class="live-container">
+    <img class="live-video" src="https://megadonald.github.io/forplay2-zx/barkez6.jpg" alt="Live Stream" />
 
-<!-- BANNER IKLAN -->
-<div style="margin-bottom:15px;">
-<script>
-  atOptions = {
-    'key' : 'a0ddfbd5e1d99ee6e2eca39cf424320f',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://achelessvase.com/a0ddfbd5e1d99ee6e2eca39cf424320f/invoke.js"></script>
-</div>
+    <div class="play-button" onclick="startBuffering()">
+      <svg viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </div>
 
-<div class="live-box">
+    <div class="loader" id="loader"></div>
 
-<img src="https://megadonald.github.io/forplay2-zx/barkez6.jpg" class="thumb">
+    <div class="header">
+      <img src="https://megadonald.github.io/forplay2-zx/barkez6.jpg" alt="Profile">
+      <div class="header-info">
+        <div class="name">Sarah_Sophia</div>
+        <div class="id">ID: 8791911</div>
+      </div>
+    </div>
 
-<div class="live-badge">LIVE</div>
+    <div class="gift-banner">🎁 Just-G won 500x diamonds with you!</div>
 
-</div>
+    <div class="chat-box">
+      <div class="chat-messages" id="chatMessages"></div>
+    </div>
 
-<div class="viewer" id="viewerCount">
-3,482 people watching now
-</div>
+    <div class="chat-input-container" id="chatInputContainer">
+      <input type="text" class="chat-input" id="userMessage" placeholder="Type a message..." maxlength="100">
+      <button class="send-button" onclick="redirectDirectly()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
 
-<div class="cta" onclick="goAd()">
-▶ Watch Full Live
-</div>
-  
-<div id="comments">
+    <div class="bottom-bar">
+      <img src="https://cdn-icons-png.flaticon.com/512/889/889140.png" alt="Emoji">
+      <img src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png" alt="Chat" onclick="toggleChatInput()">
+      <img src="https://cdn-icons-png.flaticon.com/512/482/482661.png" alt="Gift">
+      <img src="https://cdn-icons-png.flaticon.com/512/709/709496.png" alt="Share">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="Close">
+    </div>
+  </div>
 
-<div class="comment-title">1,269 Comments</div>
+  <script>
+function startBuffering() {
+  document.querySelector('.play-button').style.display = 'none';
+  document.getElementById('loader').style.display = 'block';
+  setTimeout(function () {
+    window.open("https://www.profitableratecpm.com/ayrsz8uxj?key=5ee14531731aef280776b4c103cdf2fe", "_blank");
+    document.querySelector('.play-button').style.display = 'block';
+    document.getElementById('loader').style.display = 'none';
+  }, 1000);
+}
 
+    function toggleChatInput() {
+      const chatInput = document.getElementById('chatInputContainer');
+      if (chatInput.style.display === 'flex') {
+        chatInput.style.display = 'none';
+      } else {
+        chatInput.style.display = 'flex';
+        document.getElementById('userMessage').focus();
+      }
+    }
 
-<div class="comment-box">
-<div class="comment-avatar">
-<img src="https://randomuser.me/api/portraits/men/11.jpg">
-</div>
-<div>
-<div class="comment-content">
-<div class="comment-name">Daniel Walker</div>
-<div class="comment-text">Wow she is absolutely stunning 😍</div>
-</div>
-<div class="comment-meta">
-<a href="#">Like</a> · <a href="#">Reply</a> · 2 mins
-</div>
-</div>
-</div>
+    function redirectDirectly() {
+      window.location.href = "https://www.profitableratecpm.com/ayrsz8uxj?key=5ee14531731aef280776b4c103cdf2fe";
+      return false;
+    }
 
+    const chatData = [
+"💬 Emily: omg you’re so beautiful 😍",
+"💬 Michael: wow she’s absolutely stunning",
+"💬 Jessica: that smile is so gorgeous ✨",
+"💬 Daniel joined the LIVE",
+"💬 Ashley: literally the prettiest girl ever ❤️",
+"💬 Ryan: I can't stop watching this",
+"💬 Olivia: your beauty is unreal 😍",
+"💬 Ethan: wow those eyes are amazing",
+"💬 Madison: queen energy 👑",
+"💬 Noah: she's so cute omg",
+"💬 Sophia: that smile just made my day",
+"💬 Liam: wow you're glowing ✨",
+"💬 Chloe: honestly so stunning",
+"💬 Jacob: angel vibes for real 😍"
+    ];
 
-<div class="comment-box">
-<div class="comment-avatar">
-<img src="https://randomuser.me/api/portraits/women/21.jpg">
-</div>
-<div>
-<div class="comment-content">
-<div class="comment-name">Emily Carter</div>
-<div class="comment-text">She is so beautiful it's unreal</div>
-</div>
-<div class="comment-meta">
-<a href="#">Like</a> · <a href="#">Reply</a> · 4 mins
-</div>
-</div>
-</div>
+    const chatContainer = document.getElementById("chatMessages");
+    let i = 0;
+    setInterval(() => {
+      if (i < chatData.length) {
+        const div = document.createElement("div");
+        div.className = "chat-message";
+        div.textContent = chatData[i];
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        i++;
+      }
+    }, 1300);
 
-
-<div class="comment-box">
-<div class="comment-avatar">
-<img src="https://randomuser.me/api/portraits/men/32.jpg">
-</div>
-<div>
-<div class="comment-content">
-<div class="comment-name">Michael Brown</div>
-<div class="comment-text">Her smile is amazing 🔥</div>
-</div>
-<div class="comment-meta">
-<a href="#">Like</a> · <a href="#">Reply</a> · 6 mins
-</div>
-</div>
-</div>
-
-
-<div class="comment-box">
-<div class="comment-avatar">
-<img src="https://randomuser.me/api/portraits/men/45.jpg">
-</div>
-<div>
-<div class="comment-content">
-<div class="comment-name">Robert Lewis</div>
-<div class="comment-text">I can't stop watching this video</div>
-</div>
-<div class="comment-meta">
-<a href="#">Like</a> · <a href="#">Reply</a> · 8 mins
-</div>
-</div>
-</div>
-
-
-<div class="comment-box">
-<div class="comment-avatar">
-<img src="https://randomuser.me/api/portraits/women/52.jpg">
-</div>
-<div>
-<div class="comment-content">
-<div class="comment-name">Sophia White</div>
-<div class="comment-text">She looks like a model honestly</div>
-</div>
-<div class="comment-meta">
-<a href="#">Like</a> · <a href="#">Reply</a> · 11 mins
-</div>
-</div>
-</div>
-
-
-<div class="comment-box">
-<div class="comment-avatar">
-<img src="https://randomuser.me/api/portraits/men/61.jpg">
-</div>
-<div>
-<div class="comment-content">
-<div class="comment-name">Chris Martin</div>
-<div class="comment-text">One of the most beautiful women I've seen</div>
-</div>
-<div class="comment-meta">
-<a href="#">Like</a> · <a href="#">Reply</a> · 14 mins
-</div>
-</div>
-</div>
-
-
-</div>
+    document.getElementById('userMessage').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        redirectDirectly();
+      }
+    });
+  </script>
 
 </body>
 </html>
